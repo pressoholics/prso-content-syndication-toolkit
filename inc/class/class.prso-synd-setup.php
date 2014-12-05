@@ -38,7 +38,7 @@ class PrsoSyndSetup {
 		$this->register_prso_synd_toolkit();
 		
 		//Prevent public access to the prso_synd_toolkit post type
-		add_action( 'template_redirect', array($this, 'no_public_access_prso_synd_toolkit_posts') );
+		//add_action( 'template_redirect', array($this, 'no_public_access_prso_synd_toolkit_posts') );
 		
 	}
 	
@@ -96,39 +96,6 @@ class PrsoSyndSetup {
 		);
 		register_post_type( 'prso_synd_toolkit', $args );
 		
-		//Register custom taxonomy 'prso_synd_group' PRO ONLY
-		/**
-		$post_type	= $this->class_config['post_options']['post_type'];
-		
-		$labels = array(
-			'name'                       => _x( 'Syndication Groups', 'Taxonomy General Name', PRSOSYNDTOOLKIT__DOMAIN ),
-			'singular_name'              => _x( 'Syndication Group', 'Taxonomy Singular Name', PRSOSYNDTOOLKIT__DOMAIN ),
-			'menu_name'                  => __( 'Syndication Groups', PRSOSYNDTOOLKIT__DOMAIN ),
-			'all_items'                  => __( 'All Items', PRSOSYNDTOOLKIT__DOMAIN ),
-			'parent_item'                => __( 'Parent Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'parent_item_colon'          => __( 'Parent Item:', PRSOSYNDTOOLKIT__DOMAIN ),
-			'new_item_name'              => __( 'New Item Name', PRSOSYNDTOOLKIT__DOMAIN ),
-			'add_new_item'               => __( 'Add New Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'edit_item'                  => __( 'Edit Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'update_item'                => __( 'Update Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'separate_items_with_commas' => __( 'Separate items with commas', PRSOSYNDTOOLKIT__DOMAIN ),
-			'search_items'               => __( 'Search Items', PRSOSYNDTOOLKIT__DOMAIN ),
-			'add_or_remove_items'        => __( 'Add or remove items', PRSOSYNDTOOLKIT__DOMAIN ),
-			'choose_from_most_used'      => __( 'Choose from the most used items', PRSOSYNDTOOLKIT__DOMAIN ),
-			'not_found'                  => __( 'Not Found', PRSOSYNDTOOLKIT__DOMAIN ),
-		);
-		$args = array(
-			'labels'                     => $labels,
-			'hierarchical'               => true,
-			'public'                     => true,
-			'show_ui'                    => true,
-			'show_admin_column'          => true,
-			'show_in_nav_menus'          => false,
-			'show_tagcloud'              => false,
-			'rewrite'                    => false,
-		);
-		register_taxonomy( 'prso_synd_group', array( $post_type ), $args );
-		**/
 	}
 	
 	/**

@@ -253,6 +253,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 <?php 	endif; ?>
 <?php 	wxr_post_taxonomy(); ?>
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
+		
 		foreach ( $postmeta as $meta ) :
 			/**
 			 * Filter whether to selectively skip post meta used for WXR exports.
@@ -274,7 +275,13 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 			<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
 		</wp:postmeta>
 <?php	endforeach; ?>
-
+		
+		<?php //Add original post permalink to post meta ?>
+		<wp:postmeta>
+			<wp:meta_key>pcst_canonical_permalink</wp:meta_key>
+			<wp:meta_value><?php echo get_post_permalink( $post->ID ); ?></wp:meta_value>
+		</wp:postmeta>
+		
 	</item>
 <?php
 	}

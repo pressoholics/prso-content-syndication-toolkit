@@ -11,7 +11,7 @@ Content Syndication Toolkit allows you to syndicate content to multiple client s
 
 == Description ==
 
-= Are you a content creator, freelance author, or SEO expert? =
+= Are you a content creator, freelance author, or SEO content marketer? =
 
 Do yo need to syndicate content to your client's Wordpress sites?
 
@@ -24,6 +24,12 @@ Just create an account for each client, publish your post and all the content, c
 = This is NOT an RSS aggregator plugin! =
 
 All requests for content are authenticated with a username and password exactly like a Wordpress login. This means that only clients that you have registered can access the content. 
+
+= Perfect for Content Marketing =
+
+Plugin automatically adds a canonical link to the end of every imported post at the clients end.
+
+e.g. This article was first published on http://benjaminmoody.com.
 
 = Need to stop content going to a client? =
 
