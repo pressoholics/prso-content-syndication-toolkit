@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: Content Syndication Toolkit allows you to syndicate content to multiple client sites automatically. Posts, Categories, Tags, and Images.
  * Author: Benjamin Moody
- * Version: 1.0
+ * Version: 1.0.1
  * Author URI: http://www.benjaminmoody.com
  * License: GPL2+
  * Text Domain: prso_synd_toolkit_plugin
@@ -13,7 +13,7 @@
 
 //Define plugin constants
 define( 'PRSOSYNDTOOLKIT__MINIMUM_WP_VERSION', '3.0' );
-define( 'PRSOSYNDTOOLKIT__VERSION', '1.0' );
+define( 'PRSOSYNDTOOLKIT__VERSION', '1.0.1' );
 define( 'PRSOSYNDTOOLKIT__DOMAIN', 'prso_synd_toolkit_plugin' );
 
 //Plugin admin options will be available in global var with this name, also is database slug for options

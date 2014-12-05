@@ -279,7 +279,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 		<?php //Add original post permalink to post meta ?>
 		<wp:postmeta>
 			<wp:meta_key>pcst_canonical_permalink</wp:meta_key>
-			<wp:meta_value><?php echo get_post_permalink( $post->ID ); ?></wp:meta_value>
+			<wp:meta_value><?php echo wxr_cdata( get_post_permalink( $post->ID  )); ?></wp:meta_value>
 		</wp:postmeta>
 		
 	</item>

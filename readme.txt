@@ -1,9 +1,9 @@
 === Content Syndication Toolkit ===
 Contributors: ben.moody
-Tags: content syndicator,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
+Tags: content syndicator,content marketing,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
 Requires at least: 3.0
 Tested up to: 4.0.1
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -15,9 +15,11 @@ Content Syndication Toolkit allows you to syndicate content to multiple client s
 
 Do yo need to syndicate content to your client's Wordpress sites?
 
+Want to make content marketing to multiple clients a breeze?
+
 Content Syndication Toolkit allows you to syndicate content to multiple client sites automatically. 
 
-Just create an account for each client, publish your post and all the content, categories, tags and images will be pushed to all registered clients.
+Just create an account for each client, publish your post and all the content, categories, tags and images will be pushed to all registered clients. This is a content marketing wordpress plugin which makes mass content syndication quick and simple.
 
 [youtube http://www.youtube.com/watch?v=IDhMirwfnLc]
 
@@ -96,5 +98,9 @@ Sometimes web servers crash or are slow to respond.
 If your site cannot reach a client during a push it will send you and email with the account name and error details. It will also send your client and email with instructions on how to manually start a content pull from their wordpress admin area.
 
 == Changelog ==
+
 = 1.0 =
 Initial plugin launch.
+
+= 1.0.1 =
+Added canonical link generation for client posts.
