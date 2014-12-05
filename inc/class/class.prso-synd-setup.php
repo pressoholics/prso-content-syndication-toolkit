@@ -21,6 +21,9 @@ class PrsoSyndSetup {
 		//On post save for 'prso_synd_toolkit' posts, add meta data 'prso_synd_toolkit_ID'
 		add_action( 'post_updated', array($this, 'on_save_add_post_meta') );
 		
+		//On export add any custom post meta to the export xml
+		add_action( 'pcst_export_post_meta_xml', array($this, 'export_action_post_meta_xml') );
+		
 	}
 	
 	/**
@@ -169,6 +172,48 @@ class PrsoSyndSetup {
 			
 	    }
 		
+	}
+	
+	/**
+	* export_action_post_meta_xml
+	* 
+	* @Called By Action: 'pcst_export_post_meta_xml'
+	*
+	* Called right at the end of the metadata export xml for a post
+	* Allows us to inject in custom post meta before exporting to client
+	* 
+	* @param	obj		$post
+	* @access 	public
+	* @author	Ben Moody
+	*/
+	public function export_action_post_meta_xml( $post ) {
+		
+		//Add meta xml for posts original url (master sever url) for canonical links
+		?>
+		<wp:postmeta>
+			<wp:meta_key>pcst_canonical_permalink</wp:meta_key>
+			<wp:meta_value><?php echo $this->wxr_cdata( get_post_permalink( $post->ID  )); ?></wp:meta_value>
+		</wp:postmeta>
+		<?php
+		
+	}
+	
+	/**
+	 * Wrap given string in XML CDATA tag.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $str String to wrap in XML CDATA tag.
+	 * @return string
+	 */
+	private function wxr_cdata( $str ) {
+		if ( seems_utf8( $str ) == false )
+			$str = utf8_encode( $str );
+	
+		// $str = ent2ncr(esc_html($str));
+		$str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
+	
+		return $str;
 	}
 	
 	/**

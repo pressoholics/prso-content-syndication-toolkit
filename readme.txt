@@ -3,7 +3,7 @@ Contributors: ben.moody
 Tags: content syndicator,content marketing,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
 Requires at least: 3.0
 Tested up to: 4.0.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -104,3 +104,11 @@ Initial plugin launch.
 
 = 1.0.1 =
 Added canonical link generation for client posts.
+
+= 1.0.2 =
+Small bugfix for canonical links
+
+== Upgrade Notice ==
+
+= 1.0.2 =
+Major important bugfix. Also added canonical links at bottom of posts at client end.

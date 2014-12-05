@@ -87,6 +87,10 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 		//User array of post id's for export
 		$post_ids = $args['post_ids'];
 	} else {
+		
+		$join = apply_filters( 'pcst_export_mysql__join', $join );
+		$where = apply_filters( 'pcst_export_mysql__where', $where );
+		
 		// Grab a snapshot of post IDs, just in case it changes during the export.
 		$post_ids = $wpdb->get_col( "SELECT ID FROM {$wpdb->posts} $join WHERE $where" );
 	}
@@ -276,11 +280,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 		</wp:postmeta>
 <?php	endforeach; ?>
 		
-		<?php //Add original post permalink to post meta ?>
-		<wp:postmeta>
-			<wp:meta_key>pcst_canonical_permalink</wp:meta_key>
-			<wp:meta_value><?php echo wxr_cdata( get_post_permalink( $post->ID  )); ?></wp:meta_value>
-		</wp:postmeta>
+		<?php do_action( 'pcst_export_post_meta_xml', $post ); ?>
 		
 	</item>
 <?php
@@ -471,10 +471,15 @@ function wxr_post_taxonomy() {
 	$post = get_post();
 
 	$taxonomies = get_object_taxonomies( $post->post_type );
+	
+	$taxonomies = apply_filters( 'pcst_export_object_taxonomies', $taxonomies );
+	
 	if ( empty( $taxonomies ) )
 		return;
 	$terms = wp_get_object_terms( $post->ID, $taxonomies );
-
+	
+	$terms = apply_filters( 'pcst_export_object_terms', $terms );
+	
 	foreach ( (array) $terms as $term ) {
 		echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . wxr_cdata( $term->name ) . "</category>\n";
 	}
