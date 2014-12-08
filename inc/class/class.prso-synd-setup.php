@@ -24,6 +24,9 @@ class PrsoSyndSetup {
 		//On export add any custom post meta to the export xml
 		add_action( 'pcst_export_post_meta_xml', array($this, 'export_action_post_meta_xml') );
 		
+		//Add ajax action for async push on post save 
+		add_action( 'wp_ajax_nopriv_pcst-push-content-on-save', array($this, 'push_content_to_clients_on_save'), 10 );
+		
 	}
 	
 	/**
@@ -37,11 +40,8 @@ class PrsoSyndSetup {
 	*/
 	private function register_post_types() {
 		
-		//Register prso_synd_toolkit post type and taxonomies
+		//Register prso_synd_toolkit post type
 		$this->register_prso_synd_toolkit();
-		
-		//Prevent public access to the prso_synd_toolkit post type
-		//add_action( 'template_redirect', array($this, 'no_public_access_prso_synd_toolkit_posts') );
 		
 	}
 	
@@ -100,34 +100,57 @@ class PrsoSyndSetup {
 		register_post_type( 'prso_synd_toolkit', $args );
 		
 	}
-	
+		
 	/**
-	* no_public_access_prso_synd_toolkit_posts
+	* export_action_post_meta_xml
 	* 
-	* @Called By Filter: 'template_redirect'
+	* @Called By Action: 'pcst_export_post_meta_xml'
 	*
-	* Blocks access to 'prso_synd_toolkit' post types on the front end for everyone except users who can edit posts
+	* Called right at the end of the metadata export xml for a post
+	* Allows us to inject in custom post meta before exporting to client
 	* 
+	* @param	obj		$post
 	* @access 	public
 	* @author	Ben Moody
 	*/
-	public function no_public_access_prso_synd_toolkit_posts() {
+	public function export_action_post_meta_xml( $post ) {
 		
-		if ( is_user_logged_in() && current_user_can( 'edit_posts' ) )
-        	return;
+		//Init vars
+		global $pcst_canonical_post_obj;
+		$pcst_canonical_post_obj = $post;
+		$output = NULL;
 		
-		//Redirect public users to home page for all 'prso_synd_toolkit' post type views
-		if( is_singular('prso_synd_toolkit') || is_archive('prso_synd_toolkit') ) {
-			wp_redirect( get_home_url() );
-			exit();
-		}
+		//Add meta xml for posts original url (master sever url) for canonical links
+		ob_start();
+		?>
+		<wp:postmeta>
+			<wp:meta_key>pcst_canonical_permalink</wp:meta_key>
+			<wp:meta_value><?php echo $this->wxr_cdata( get_page_link( $post->ID  )); ?></wp:meta_value>
+		</wp:postmeta>
+		<?php
+		$output.= apply_filters( 'pcst_export_post_meta_xml__canonical', ob_get_contents(), $post );
+		ob_end_clean();
 		
-		//Redirect public users to home page for all 'prso_synd_group' taxonomy views
-		if( is_tax('prso_synd_group') ) {
-			wp_redirect( get_home_url() );
-			exit();
-		}
+		echo apply_filters( 'pcst_export_post_meta_xml_filter', $output, $post );
 		
+	}
+	
+	/**
+	 * Wrap given string in XML CDATA tag.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $str String to wrap in XML CDATA tag.
+	 * @return string
+	 */
+	private function wxr_cdata( $str ) {
+		if ( seems_utf8( $str ) == false )
+			$str = utf8_encode( $str );
+	
+		// $str = ent2ncr(esc_html($str));
+		$str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
+	
+		return $str;
 	}
 	
 	/**
@@ -165,55 +188,20 @@ class PrsoSyndSetup {
 	    if( ($post->post_type == $this->class_config['post_options']['post_type']) && ($post->post_status == 'publish') ) {
 	    
 		    //Add custom post meta 'prso_synd_toolkit_ID', populate with master post ID
-			add_post_meta( $post_id, 'prso_synd_toolkit_ID', $post_id );
+			update_post_meta( $post_id, 'prso_synd_toolkit_ID', $post_id );
 			
 			//Push content to all registered accounts
-			$this->push_content_to_clients();
+			if( $this->class_config['post_options']['push_on_publish'] ) {
+			
+				//PrsoSyndSetup::push_content_to_clients();
+				
+				//Make an async call to push content to clients
+				$this->background_init( 'pcst-push-content-on-save' );
+				
+			}
 			
 	    }
 		
-	}
-	
-	/**
-	* export_action_post_meta_xml
-	* 
-	* @Called By Action: 'pcst_export_post_meta_xml'
-	*
-	* Called right at the end of the metadata export xml for a post
-	* Allows us to inject in custom post meta before exporting to client
-	* 
-	* @param	obj		$post
-	* @access 	public
-	* @author	Ben Moody
-	*/
-	public function export_action_post_meta_xml( $post ) {
-		
-		//Add meta xml for posts original url (master sever url) for canonical links
-		?>
-		<wp:postmeta>
-			<wp:meta_key>pcst_canonical_permalink</wp:meta_key>
-			<wp:meta_value><?php echo $this->wxr_cdata( get_post_permalink( $post->ID  )); ?></wp:meta_value>
-		</wp:postmeta>
-		<?php
-		
-	}
-	
-	/**
-	 * Wrap given string in XML CDATA tag.
-	 *
-	 * @since 2.1.0
-	 *
-	 * @param string $str String to wrap in XML CDATA tag.
-	 * @return string
-	 */
-	private function wxr_cdata( $str ) {
-		if ( seems_utf8( $str ) == false )
-			$str = utf8_encode( $str );
-	
-		// $str = ent2ncr(esc_html($str));
-		$str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
-	
-		return $str;
 	}
 	
 	/**
@@ -225,10 +213,9 @@ class PrsoSyndSetup {
 	* @access 	public
 	* @author	Ben Moody
 	*/
-	private function push_content_to_clients() {
+	public static function push_content_to_clients( $subscribers = array(), $is_ajax = FALSE ) {
 		
 		//Init vars
-		$subscribers	= array();
 		$http_request 	= NULL;
 		$request_url	= NULL;
 		$response		= NULL;
@@ -236,17 +223,20 @@ class PrsoSyndSetup {
 		$error_msg		= NULL;
 		
 		//First get all client user account website urls
-		$subscribers = get_users( 
-			array(
-				'role' => PRSOSYNDTOOLKIT__USER_ROLE
-			)	
-		);
+		if( empty($subscribers) ) {
+			$subscribers = get_users( 
+				array(
+					'role' => PRSOSYNDTOOLKIT__USER_ROLE
+				)	
+			);
+		}
+		
 		
 		//Loop all subscribers and make a push request to user_url
 		if( !empty($subscribers) ){
 			
 			set_time_limit(0);
-			add_filter( 'http_request_timeout', array( $this, 'bump_request_timeout' ) );
+			add_filter( 'http_request_timeout', array( 'PrsoSyndSetup', 'bump_request_timeout' ) );
 			
 			foreach( $subscribers as $subscriber ) {
 				
@@ -277,8 +267,12 @@ class PrsoSyndSetup {
 
 				if( !empty($error_msg) ) {
 					
-					//Send email to client admin and prompt them to perform a manual pull request
-					PrsoSyndToolkit::send_admin_email( $error_msg, 'push_error_client_alert', $subscriber->data->user_email );
+					if( !$is_ajax ) {
+						//Send email to client admin and prompt them to perform a manual pull request
+						PrsoSyndToolkit::send_admin_email( $error_msg, 'push_error_client_alert', $subscriber->data->user_email );
+					} else {
+						wp_send_json_error( _x( $error_msg, 'text', PRSOSYNDTOOLKIT__DOMAIN ) );
+					}
 					
 				}
 				
@@ -286,11 +280,17 @@ class PrsoSyndSetup {
 		}
 		
 		if( !empty($error_msg) ) {
-		
-			//Send email to Master admin
-			PrsoSyndToolkit::send_admin_email(
-				_x( 'There was a problem contacting at least one of your client servers. Probably a server timeout or the site is down.', 'text', PRSOSYNDTOOLKIT__DOMAIN )
-			);
+			
+			if( !$is_ajax ) {
+				//Send email to Master admin
+				PrsoSyndToolkit::send_admin_email(
+					_x( 'There was a problem contacting at least one of your client servers. Probably a server timeout or the site is down.', 'text', PRSOSYNDTOOLKIT__DOMAIN )
+				);
+			}
+			
+		} elseif( empty($error_msg) && $is_ajax ) {
+			
+			wp_send_json_success( _x( 'Post Push Completed', 'text', PRSOSYNDTOOLKIT__DOMAIN ) );
 			
 		}
 		
@@ -300,9 +300,113 @@ class PrsoSyndSetup {
 	 * Added to http_request_timeout filter to force timeout at 60 seconds during import
 	 * @return int 180
 	 */
-	public function bump_request_timeout( $val ) {
+	public static function bump_request_timeout( $val ) {
 		return 1000;
 	}
+	
+	/**
+	* push_content_to_clients
+	* 
+	* @Ajax Call 'wp_ajax_pcst-push-content-on-save'
+	* 
+	* 
+	*
+	* @access 	public
+	* @author	Ben Moody
+	*/
+	public function push_content_to_clients_on_save() {
+		
+		//Init vars
+		$subscribers	= array();
+		$http_request 	= NULL;
+		$request_url	= NULL;
+		$response		= NULL;
+		$output			= NULL;
+		$error_msg		= NULL;
+		
+		//Push content to subscribers
+		PrsoSyndSetup::push_content_to_clients( array(), FALSE );
+		
+		die( 'push complete' );
+		
+	}
+	
+	/**
+	* background_init
+	* 
+	* Called By Action: prso_gform_pluploader_processed_uploads
+	* 
+	* Hooks into custom action for Gravity Forms Advanced Uploader plugin.
+	* Once all attachments have been processed by the plugin and added to wordpress
+	* media library. 
+	*
+	* The array of attachments, Gravity Forms Entry & Form data are prepared to be sent
+	* to the next function via a CURL request.
+	*
+	* Why CURL? - To make sure the upload process to the video hosting service is
+	* asyncronous, thus the user will not have to sit and wait for the file to be uploaded
+	* before getting some feedback from the form. 
+	*
+	* Note that the curl request works like a wordpress Ajax request see the 'action' element
+	* of $fields array.
+	*
+	* @param	Array	$wp_attachment_data
+	* @param	Array	$entry
+	* @param	Array	$form
+	* @access 	public
+	* @author	Ben Moody
+	*/
+	public function background_init( $action = NULL ) {
+		
+		//Init vars
+		$shell_exec_path 	= '';
+		$command			= '';
+		$ajax_hook_slug		= '';		
+		$plugin_options		= array();
+		
+		//** Set Post Vars **//
+		
+		//Set wp ajax action slug
+		$fields['action'] = $action;
+		
+		//Set nonce
+		$fields['ajaxNonce'] = wp_create_nonce( 'pcst-admin-ajax' );
+		
+		//** Init curl request - note this is asynchronous **//
+		$this->init_curl( $fields );
+		
+	}
+	
+	/**
+	* init_curl
+	* 
+	* Helper to make a curl request
+	* 
+	* @param	Array	$post_fields
+	* @access 	public
+	* @author	Ben Moody
+	*/
+	private function init_curl( $post_fields ) {
+		
+		//** Init curl request - note this is asynchronous **//
+		$ch = curl_init();
+		
+		//Cache path to wp ajax script
+		$wp_ajax_url = admin_url('admin-ajax.php');
+		
+		curl_setopt($ch, CURLOPT_URL, $wp_ajax_url);
+		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		$result = curl_exec($ch);
+		
+		curl_close($ch);
+		
+	}
+	
+	
 	
 }
 ?>

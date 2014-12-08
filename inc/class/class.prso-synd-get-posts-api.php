@@ -9,6 +9,7 @@
 class PrsoSyndGetPostsApi {
 	
 	private $class_config = array();
+	public static $current_client = NULL;
 	
 	function __construct( $config = array() ) {
 		
@@ -17,6 +18,11 @@ class PrsoSyndGetPostsApi {
 		
 		//Filter wordpress XMLRPC Methods adding our custom methods
 		add_filter( 'xmlrpc_methods', array($this, 'add_xmlrpc_methods') );
+		
+		//Require the post export function
+		if( !function_exists('prso_synd_toolkit_export_wp') ) {
+			require_once( PRSOSYNDTOOLKIT__PLUGIN_DIR . 'inc/export.php' );
+		}
 		
 	}
 	
@@ -61,9 +67,8 @@ class PrsoSyndGetPostsApi {
 		$results 	= NULL; //Results of query
 		$output		= NULL; //Output to return via api
 		
-		
 		$wp_xmlrpc_server->escape( $args );
-		
+				
 		if ( ! $user = $wp_xmlrpc_server->login( $args[1], $args[2] ) ) {
         	//return $wp_xmlrpc_server->error;
         	header('HTTP/1.0 403 Forbidden');
@@ -76,6 +81,10 @@ class PrsoSyndGetPostsApi {
 			die();
 		}
 		
+		//Cache args for current user in static var
+		self::$current_client = $user;
+		
+		do_action( 'pcst_client_request_authenticated', $user );
 		
 		//Require the post export function
 		if( !function_exists('prso_synd_toolkit_export_wp') ) {
@@ -83,10 +92,15 @@ class PrsoSyndGetPostsApi {
 		}
 		
 		//First export all prso_synd_toolkit posts since the last client import
+		do_action( 'pcst_before_post_export' );
 		$output['posts'] = $this->get_prso_synd_toolkit_posts( $args );
+		do_action( 'pcst_after_post_export' );
+		
 		
 		//Next export ALL attachments, client import will filter out duplicates
+		do_action( 'pcst_before_attachment_export' );
 		$output['attachments'] = $this->get_attachments( $args );
+		do_action( 'pcst_after_attachment_export' );
 		
 		//Also send wordpress default image sizes, need to be sure we can sync these when importing at clients end
 		$output['image_sizes'] = $this->get_image_sizes();

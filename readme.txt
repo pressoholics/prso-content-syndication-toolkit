@@ -3,7 +3,7 @@ Contributors: ben.moody
 Tags: content syndicator,content marketing,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
 Requires at least: 3.0
 Tested up to: 4.0.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -17,21 +17,25 @@ Do yo need to syndicate content to your client's Wordpress sites?
 
 Want to make content marketing to multiple clients a breeze?
 
+Automatically add Canonical links back to original content!
+
 Content Syndication Toolkit allows you to syndicate content to multiple client sites automatically. 
 
 Just create an account for each client, publish your post and all the content, categories, tags and images will be pushed to all registered clients. This is a content marketing wordpress plugin which makes mass content syndication quick and simple.
 
 [youtube http://www.youtube.com/watch?v=IDhMirwfnLc]
 
+= Perfect for Content Marketing, Auto Canonical link generation! =
+
+Plugin automatically adds a canonical link to the 'head' every imported post at the clients end.
+
+It also adds a link back to the original post at the end of the content:
+
+e.g. This article was first published on http://benjaminmoody.com.
+
 = This is NOT an RSS aggregator plugin! =
 
 All requests for content are authenticated with a username and password exactly like a Wordpress login. This means that only clients that you have registered can access the content. 
-
-= Perfect for Content Marketing =
-
-Plugin automatically adds a canonical link to the end of every imported post at the clients end.
-
-e.g. This article was first published on http://benjaminmoody.com.
 
 = Need to stop content going to a client? =
 
@@ -74,6 +78,11 @@ Sometimes web servers go down or take a while to respond. If there is any issue 
 
 == Frequently Asked Questions ==
 
+= How to I display the archive for all my syndication posts? =
+In your wordpress Menu add a link to /syndication-post/ like this:
+
+http://www.YourWebsiteURL.com/syndication-post/ (replace www.YourWebsiteURL.com with your websites URL)
+
 = Can i create draft posts without pushing them to clients? =
 Yes. only 'Syndication Posts' that are marked as published will be pushed to clients. So be careful when you push the blue publish button, be sure you want the post to go out. If not sure just 'save as draft' and publish later when you are ready.
 
@@ -81,7 +90,7 @@ Yes. only 'Syndication Posts' that are marked as published will be pushed to cli
 No, this is a one way process. Think of it as an email campaign, once is goes out mistakes can't be corrected. Be sure before you publish!
 
 = Can people read these posts on the front end like any other post? =
-No, all 'Syndication Posts' are protected from the public. Only logged in users with at least 'editor' role can view these posts.
+Yes, all 'Syndication Posts' published on your site. All client copies of posts are automatically marked with a Canonical tag pointing back to the original post on your site.
 
 = Do i have to add my posts as 'Syndication Posts' cant i use normal posts? =
 In this free version yes, you have to use the custom 'Syndication Posts' post type. In the PRO version, there are many more features, selecting to publish from the default 'posts' post type is just one of them.
@@ -108,7 +117,13 @@ Added canonical link generation for client posts.
 = 1.0.2 =
 Small bugfix for canonical links
 
+= 1.0.3 =
+Bugfix for canonical pretty permalinks. Improved push speed on post publish.
+
 == Upgrade Notice ==
 
 = 1.0.2 =
 Major important bugfix. Also added canonical links at bottom of posts at client end.
+
+= 1.0.3 =
+Bugfix for canonical pretty permalinks. Improved push speed on post publish.
