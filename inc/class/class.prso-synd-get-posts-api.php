@@ -84,6 +84,9 @@ class PrsoSyndGetPostsApi {
 		//Cache args for current user in static var
 		self::$current_client = $user;
 		
+		/*
+		 * $user->data->ID
+		 */
 		do_action( 'pcst_client_request_authenticated', $user );
 		
 		//Require the post export function
