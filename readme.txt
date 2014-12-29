@@ -3,7 +3,7 @@ Contributors: ben.moody
 Tags: content syndicator,content marketing,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -70,11 +70,12 @@ Sometimes web servers go down or take a while to respond. If there is any issue 
 == Installation ==
 1. Upload to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Create client user accounts under 'Users' menu in Wordpress. Be sure to select the user role 'Syndication Sub' AND add the client's website URL into the user website field. If you forget this content push to this client will fail.
-4. Provide clients with their login info, and your website URL.
-5. Have clients download and active the 'Content Syndication Toolkit Reader' plugin from the Wordpress plugin directory.
-6. Tell your clients to follow the directions for the 'Content Syndication Toolkit Reader' plugin. That is to say, enter in their username, password, YOUR website URL, add select a default author account.
-7. That's it, every time you publish a post in the new 'Syndication Posts' post type. All the post content will automatically be pushed to all registered users in the 'Syndication Sub' role.
+3. Set the post type you wish to syndicate in Settings > Content Syndication menu in Wordpress. By using the default post type you can keep your syndication posts seperate from your default blog posts OR you can choose to syndicate all default Wordpress Posts.
+4. Create client user accounts under 'Users' menu in Wordpress. Be sure to select the user role 'Syndication Sub' AND add the client's website URL into the user website field. If you forget this content push to this client will fail.
+5. Provide clients with their login info, and your website URL.
+6. Have clients download and active the 'Content Syndication Toolkit Reader' plugin from the Wordpress plugin directory.
+7. Tell your clients to follow the directions for the 'Content Syndication Toolkit Reader' plugin. That is to say, enter in their username, password, YOUR website URL, add select a default author account.
+8. That's it, every time you publish a post in the new 'Syndication Posts' post type. All the post content will automatically be pushed to all registered users in the 'Syndication Sub' role.
 
 == Frequently Asked Questions ==
 
@@ -120,6 +121,9 @@ Small bugfix for canonical links
 = 1.0.3 =
 Bugfix for canonical pretty permalinks. Improved push speed on post publish.
 
+= 1.0.4 =
+Added plugin option to select which post type to syndicate.
+
 == Upgrade Notice ==
 
 = 1.0.2 =
@@ -127,3 +131,6 @@ Major important bugfix. Also added canonical links at bottom of posts at client 
 
 = 1.0.3 =
 Bugfix for canonical pretty permalinks. Improved push speed on post publish.
+
+= 1.0.4 =
+New option added. You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.

@@ -327,8 +327,8 @@ if ( !class_exists( "PrsoSyndToolkitOptions" ) ) {
 				'display_version'		=> PRSOSYNDTOOLKIT__VERSION, // Version that appears at the top of your panel
 				'menu_type'          	=> 'menu', //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
 				'allow_sub_menu'     	=> true, // Show the sections below the admin menu item or not
-				'menu_title'			=> __( 'Syndication Toolkit', $this->text_domain ),
-	            'page'		 	 		=> __( 'Syndication Toolkit', $this->text_domain ),
+				'menu_title'			=> __( 'Content Syndication', $this->text_domain ),
+	            'page'		 	 		=> __( 'Content Syndication', $this->text_domain ),
 	            'google_api_key'   	 	=> '', // Must be defined to add google fonts to the typography module
 	            'global_variable'    	=> '', // Set a different name for your global variable other than the opt_name
 	            'dev_mode'           	=> false, // Show the time the page took to load, etc
