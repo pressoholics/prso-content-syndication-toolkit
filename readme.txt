@@ -122,7 +122,7 @@ Small bugfix for canonical links
 Bugfix for canonical pretty permalinks. Improved push speed on post publish.
 
 = 1.0.4 =
-New option added. You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.
+New option added (Settings > Content Syndication menu in Wordpress). You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.
 
 == Upgrade Notice ==
 
@@ -133,4 +133,4 @@ Major important bugfix. Also added canonical links at bottom of posts at client 
 Bugfix for canonical pretty permalinks. Improved push speed on post publish.
 
 = 1.0.4 =
-New option added. You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.
+New option added (Settings > Content Syndication menu in Wordpress). You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.
