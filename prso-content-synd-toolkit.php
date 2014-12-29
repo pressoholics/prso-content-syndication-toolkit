@@ -34,13 +34,29 @@ require_once( PRSOSYNDTOOLKIT__PLUGIN_DIR . 'class.prso-content-synd-toolkit.php
 register_activation_hook( __FILE__, array( 'PrsoSyndToolkit', 'plugin_activation' ) );
 register_deactivation_hook( __FILE__, array( 'PrsoSyndToolkit', 'plugin_deactivation' ) );
 
-//Set plugin config
-$config_options = array(
-	'post_options' => array(
-		'post_type' 		=> 'prso_synd_toolkit',
-		'push_on_publish'	=> TRUE,
-	)
-);
-
-//Instatiate plugin class and pass config options array
-new PrsoSyndToolkit( $config_options );
+prso_synd_toolkit_master_init();
+function prso_synd_toolkit_master_init() {
+	
+	//Init vars
+	global $prso_synd_toolkit_master_options;
+	
+	//Set plugin config
+	$config_options = array(
+		'post_options' => array(
+			'post_type' 		=> 'prso_synd_toolkit',
+			'push_on_publish'	=> TRUE,
+		)
+	);
+	
+	//Cache plugin options array
+	$prso_synd_toolkit_master_options = get_option( PRSOSYNDTOOLKIT__OPTIONS_NAME );
+	
+	//Cache post type for syndcation
+	if( isset($prso_synd_toolkit_master_options['post-type-select']) && !empty($prso_synd_toolkit_master_options['post-type-select']) ) {
+		$config_options['post_options']['post_type'] = $prso_synd_toolkit_master_options['post-type-select'];
+	}
+	
+	//Instatiate plugin class and pass config options array
+	new PrsoSyndToolkit( $config_options );
+		
+}

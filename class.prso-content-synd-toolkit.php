@@ -75,7 +75,7 @@ class PrsoSyndToolkit {
 		if( is_admin() ) {
 		
 			//PLUGIN OPTIONS FRAMEWORK -- comment out if you dont need options
-			//$this->load_redux_options_framework();
+			$this->load_redux_options_framework();
 			
 		}
 		

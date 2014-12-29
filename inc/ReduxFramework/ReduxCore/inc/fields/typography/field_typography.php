@@ -542,12 +542,22 @@
                     array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) )
                 );
 
-                wp_enqueue_style(
+                redux_enqueue_style(
+                    $this->parent,
                     'redux-field-typography-css',
                     ReduxFramework::$_url . 'inc/fields/typography/field_typography.css',
+                    ReduxFramework::$_dir . 'inc/fields/typography',
+                    array(),
                     time(),
-                    true
-                );
+                    false
+                );                 
+                
+//                wp_enqueue_style(
+//                    'redux-field-typography-css',
+//                    ReduxFramework::$_url . 'inc/fields/typography/field_typography.css',
+//                    time(),
+//                    true
+//                );
             }  //function
 
             /**
@@ -588,6 +598,7 @@
                     $link .= "&amp;subset=" . implode( ',', $subsets );
                 }
 
+                
                 return '//fonts.googleapis.com/css?family=' . str_replace( '|', '%7C', $link );
             }
 
@@ -647,7 +658,11 @@
                     $font['font-family'] = str_replace( ', ' . $font['font-backup'], '', $font['font-family'] );
                     $fontBackup          = ',' . $font['font-backup'];
                 }
-
+                
+//                if (strpos($font['font-family'], ' ')) {
+//                    $font['font-family'] = '"' . $font['font-family'] . '"';
+//                }
+                
                 $style = '';
 
                 $fontValueSet = false;
@@ -668,6 +683,14 @@
                         // Check for font-family key
                         if ( 'font-family' == $key ) {
 
+                            // Enclose font family in quotes if spaces are in the
+                            // name.  This is necessary because if there are numerics
+                            // in the font name, they will not render properly.
+                            // Google should know better.
+                            if (strpos($value, ' ') && !strpos($value, ',')){
+                                $value = '"' . $value . '"';
+                            }
+                            
                             // Ensure fontBackup isn't empty (we already option
                             // checked this earlier.  No need to do it again.
                             if ( ! empty( $fontBackup ) ) {

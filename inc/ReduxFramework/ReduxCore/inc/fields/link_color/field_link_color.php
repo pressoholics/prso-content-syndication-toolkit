@@ -118,12 +118,22 @@
                     true
                 );
 
-                wp_enqueue_style(
-                    'redux-field-link_color-js',
+                redux_enqueue_style(
+                    $this->parent,
+                    'redux-field-link_color-css',
                     ReduxFramework::$_url . 'inc/fields/link_color/field_link_color.css',
+                    ReduxFramework::$_dir . 'inc/fields/link_color',
+                    array(),
                     time(),
-                    true
-                );
+                    false
+                );                
+                
+//                wp_enqueue_style(
+//                    'redux-field-link_color-js',
+//                    ReduxFramework::$_url . 'inc/fields/link_color/field_link_color.css',
+//                    time(),
+//                    true
+//                );
             }
 
             public function output() {
@@ -134,16 +144,16 @@
                     $style[] = 'color:' . $this->value['regular'] . ';';
                 }
 
+                if ( ! empty( $this->value['visited'] ) && $this->field['visited'] === true && $this->field['default']['visited'] !== false ) {
+                    $style['visited'] = 'color:' . $this->value['visited'] . ';';
+                }
+
                 if ( ! empty( $this->value['hover'] ) && $this->field['hover'] === true && $this->field['default']['hover'] !== false ) {
                     $style['hover'] = 'color:' . $this->value['hover'] . ';';
                 }
 
                 if ( ! empty( $this->value['active'] ) && $this->field['active'] === true && $this->field['default']['active'] !== false ) {
                     $style['active'] = 'color:' . $this->value['active'] . ';';
-                }
-
-                if ( ! empty( $this->value['visited'] ) && $this->field['visited'] === true && $this->field['default']['visited'] !== false ) {
-                    $style['visited'] = 'color:' . $this->value['visited'] . ';';
                 }
 
                 if ( ! empty( $style ) ) {

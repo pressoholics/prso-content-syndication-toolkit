@@ -55,49 +55,53 @@ class PrsoSyndSetup {
 	*/
 	private function register_prso_synd_toolkit() {
 		
-		//Register post type prso_synd_toolkit
-		$labels = array(
-			'name'                => _x( 'Syndication Posts', 'Post Type General Name', PRSOSYNDTOOLKIT__DOMAIN ),
-			'singular_name'       => _x( 'Syndication Post', 'Post Type Singular Name', PRSOSYNDTOOLKIT__DOMAIN ),
-			'menu_name'           => __( 'Syndication Posts', PRSOSYNDTOOLKIT__DOMAIN ),
-			'parent_item_colon'   => __( 'Parent Item:', PRSOSYNDTOOLKIT__DOMAIN ),
-			'all_items'           => __( 'All Items', PRSOSYNDTOOLKIT__DOMAIN ),
-			'view_item'           => __( 'View Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'add_new_item'        => __( 'Add New Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'add_new'             => __( 'Add New', PRSOSYNDTOOLKIT__DOMAIN ),
-			'edit_item'           => __( 'Edit Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'update_item'         => __( 'Update Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'search_items'        => __( 'Search Item', PRSOSYNDTOOLKIT__DOMAIN ),
-			'not_found'           => __( 'Not found', PRSOSYNDTOOLKIT__DOMAIN ),
-			'not_found_in_trash'  => __( 'Not found in Trash', PRSOSYNDTOOLKIT__DOMAIN ),
-		);
-		$rewrite = array(
-			'slug'                => 'syndication-post',
-			'with_front'          => true,
-			'pages'               => true,
-			'feeds'               => false,
-		);
-		$args = array(
-			'label'               => __( 'prso_synd_toolkit', PRSOSYNDTOOLKIT__DOMAIN ),
-			'description'         => __( 'All posts to be syndicated to your subscribers', PRSOSYNDTOOLKIT__DOMAIN ),
-			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'revisions', ),
-			'taxonomies'          => array( 'category', 'post_tag' ),
-			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'show_in_nav_menus'   => true,
-			'show_in_admin_bar'   => true,
-			'menu_position'       => 5,
-			'can_export'          => true,
-			'has_archive'         => true,
-			'exclude_from_search' => true,
-			'publicly_queryable'  => true,
-			'rewrite'             => $rewrite,
-			'capability_type'     => 'post',
-		);
-		register_post_type( 'prso_synd_toolkit', $args );
+		if( $this->class_config['post_options']['post_type'] === 'prso_synd_toolkit' ) {
+		
+			//Register post type prso_synd_toolkit
+			$labels = array(
+				'name'                => _x( 'Syndication Posts', 'Post Type General Name', PRSOSYNDTOOLKIT__DOMAIN ),
+				'singular_name'       => _x( 'Syndication Post', 'Post Type Singular Name', PRSOSYNDTOOLKIT__DOMAIN ),
+				'menu_name'           => __( 'Syndication Posts', PRSOSYNDTOOLKIT__DOMAIN ),
+				'parent_item_colon'   => __( 'Parent Item:', PRSOSYNDTOOLKIT__DOMAIN ),
+				'all_items'           => __( 'All Items', PRSOSYNDTOOLKIT__DOMAIN ),
+				'view_item'           => __( 'View Item', PRSOSYNDTOOLKIT__DOMAIN ),
+				'add_new_item'        => __( 'Add New Item', PRSOSYNDTOOLKIT__DOMAIN ),
+				'add_new'             => __( 'Add New', PRSOSYNDTOOLKIT__DOMAIN ),
+				'edit_item'           => __( 'Edit Item', PRSOSYNDTOOLKIT__DOMAIN ),
+				'update_item'         => __( 'Update Item', PRSOSYNDTOOLKIT__DOMAIN ),
+				'search_items'        => __( 'Search Item', PRSOSYNDTOOLKIT__DOMAIN ),
+				'not_found'           => __( 'Not found', PRSOSYNDTOOLKIT__DOMAIN ),
+				'not_found_in_trash'  => __( 'Not found in Trash', PRSOSYNDTOOLKIT__DOMAIN ),
+			);
+			$rewrite = array(
+				'slug'                => 'syndication-post',
+				'with_front'          => true,
+				'pages'               => true,
+				'feeds'               => false,
+			);
+			$args = array(
+				'label'               => __( 'prso_synd_toolkit', PRSOSYNDTOOLKIT__DOMAIN ),
+				'description'         => __( 'All posts to be syndicated to your subscribers', PRSOSYNDTOOLKIT__DOMAIN ),
+				'labels'              => $labels,
+				'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'revisions', ),
+				'taxonomies'          => array( 'category', 'post_tag' ),
+				'hierarchical'        => false,
+				'public'              => true,
+				'show_ui'             => true,
+				'show_in_menu'        => true,
+				'show_in_nav_menus'   => true,
+				'show_in_admin_bar'   => true,
+				'menu_position'       => 5,
+				'can_export'          => true,
+				'has_archive'         => true,
+				'exclude_from_search' => true,
+				'publicly_queryable'  => true,
+				'rewrite'             => $rewrite,
+				'capability_type'     => 'post',
+			);
+			register_post_type( 'prso_synd_toolkit', $args );
+			
+		}
 		
 	}
 		

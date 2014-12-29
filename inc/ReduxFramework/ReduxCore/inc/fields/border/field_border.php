@@ -38,6 +38,12 @@
                 $this->value  = $value;
             } //function
 
+            private function stripAlphas($s) {
+
+                // Regex is our friend.  THERE ARE FOUR LIGHTS!!
+                return preg_replace('/[^\d.-]/', '', $s);
+            }             
+            
             /**
              * Field Render Function.
              * Takes the vars and outputs the HTML for the field in the settings
@@ -83,6 +89,9 @@
                     if ( isset( $this->value['border-width'] ) && ! empty( $this->value['border-width'] ) ) {
                         $this->value['width'] = $this->value['border-width'];
                     }
+                    
+                    $this->value['width'] = $this->stripAlphas($this->value['width']);
+
                     $value['top']    = $this->value['width'];
                     $value['right']  = $this->value['width'];
                     $value['bottom'] = $this->value['width'];
@@ -204,12 +213,22 @@
                     true
                 );
 
-                wp_enqueue_style(
+                redux_enqueue_style(
+                    $this->parent,
                     'redux-field-border-css',
                     ReduxFramework::$_url . 'inc/fields/border/field_border.css',
+                    ReduxFramework::$_dir . 'inc/fields/border',
+                    array(),
                     time(),
-                    true
-                );
+                    false
+                );                
+                
+//                wp_enqueue_style(
+//                    'redux-field-border-css',
+//                    ReduxFramework::$_url . 'inc/fields/border/field_border.css',
+//                    time(),
+//                    true
+//                );
             } //function
 
             public function output() {

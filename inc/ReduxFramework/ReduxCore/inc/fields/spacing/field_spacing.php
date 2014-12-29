@@ -285,12 +285,22 @@
                     true
                 );
 
-                wp_enqueue_style(
+                redux_enqueue_style(
+                    $this->parent,
                     'redux-field-spacing-css',
                     ReduxFramework::$_url . 'inc/fields/spacing/field_spacing.css',
+                    ReduxFramework::$_dir . 'inc/fields/spacing',
+                    array(),
                     time(),
-                    true
-                );
+                    false
+                );                 
+                
+//                wp_enqueue_style(
+//                    'redux-field-spacing-css',
+//                    ReduxFramework::$_url . 'inc/fields/spacing/field_spacing.css',
+//                    time(),
+//                    true
+//                );
             } //function
 
             public function output() {
