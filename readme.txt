@@ -67,6 +67,12 @@ The client site then does the heavy lifting, importing the post data and downloa
 
 Sometimes web servers go down or take a while to respond. If there is any issue with pushing content to a client, the plugin will send an email to you with the details of the error and it will also send an email to the client admin with instructions on how to manually pull in the content using the client plugin admin options.
 
+= Need More? Go Pro and create your own Subscription Based Content Syndication Network! =
+
+[Learn More about Content Syndication Toolkit Pro][pro learnmore]
+
+[pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/
+
 == Installation ==
 1. Upload to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -78,6 +84,12 @@ Sometimes web servers go down or take a while to respond. If there is any issue 
 8. That's it, every time you publish a post in the new 'Syndication Posts' post type. All the post content will automatically be pushed to all registered users in the 'Syndication Sub' role.
 
 == Frequently Asked Questions ==
+
+= Need More Features? Go Pro and create your own Subscription Based Content Syndication Network! =
+
+[Learn More about Content Syndication Toolkit Pro][pro learnmore]
+
+[pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/
 
 = I've created accounts for my clients and published a post but the content has not been syndicated =
 Check that all the accounts you have created for your clients are using the Role 'Syndication Sub'. Now make sure that all you clients have downloaded the 'Content Syndication Toolkit Reader' plugin from Wordpress and that they have entered their account details into the reader plugin options.
