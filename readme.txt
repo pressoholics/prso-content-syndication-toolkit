@@ -103,6 +103,9 @@ Sometimes web servers go down or take a while to respond. If there is any issue 
 
 [pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/?bm_plugin_wp_repo=faq
 
+= Do i have to add my posts as 'Syndication Posts' cant i use normal posts? =
+Yes you can! Go to Settings > Content Syndication and select the post type you wish to use from the 'Syndication Post Type' drop down menu.
+
 = I've created accounts for my clients and published a post but the content has not been syndicated =
 Check that all the accounts you have created for your clients are using the Role 'Syndication Sub'. Now make sure that all you clients have downloaded the 'Content Syndication Toolkit Reader' plugin from Wordpress and that they have entered their account details into the reader plugin options.
 
@@ -116,9 +119,6 @@ No, this is a one way process. Think of it as an email campaign, once is goes ou
 
 = Can people read these posts on the front end like any other post? =
 Yes, all 'Syndication Posts' published on your site. All client copies of posts are automatically marked with a Canonical tag pointing back to the original post on your site.
-
-= Do i have to add my posts as 'Syndication Posts' cant i use normal posts? =
-Yes you can! Go to Settings > Content Syndication and select the post type you wish to use from the 'Syndication Post Type' drop down menu.
 
 = What happens when i delete a post? =
 Once deleted a post will no longer be pushed to clients. If a client already has a copy of this post it will remain live on their site along with any images.
