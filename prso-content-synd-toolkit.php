@@ -4,7 +4,7 @@
  * Plugin URI: 
  * Description: Content Syndication Toolkit allows you to syndicate content to multiple client sites automatically. Posts, Categories, Tags, and Images.
  * Author: Benjamin Moody
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author URI: http://www.benjaminmoody.com
  * License: GPL2+
  * Text Domain: prso_synd_toolkit_plugin
@@ -13,7 +13,7 @@
 
 //Define plugin constants
 define( 'PRSOSYNDTOOLKIT__MINIMUM_WP_VERSION', '3.0' );
-define( 'PRSOSYNDTOOLKIT__VERSION', '1.0.4' );
+define( 'PRSOSYNDTOOLKIT__VERSION', '1.0.5' );
 define( 'PRSOSYNDTOOLKIT__DOMAIN', 'prso_synd_toolkit_plugin' );
 
 //Plugin admin options will be available in global var with this name, also is database slug for options
@@ -59,4 +59,29 @@ function prso_synd_toolkit_master_init() {
 	//Instatiate plugin class and pass config options array
 	new PrsoSyndToolkit( $config_options );
 		
+}
+
+/* Display a notice that can be dismissed */
+add_action('admin_notices', 'pcsn_pro_admin_notice');
+function pcsn_pro_admin_notice() {
+	global $current_user ;
+    $user_id = $current_user->ID;
+    
+    /* Check that the user hasn't already clicked to ignore the message */
+	if ( ! get_user_meta($user_id, 'pcsn_pro_ignore_notice') ) {
+        echo '<div class="updated"><p>'; 
+        printf(__('<strong>New</strong>: Create your own Content Syndication Network</strong>. Setup subscriptions and have clients pay for them, sell subscriptions directly from your website.  <a href="%1$s" target="_blank">Learn More</a> | <a href="%2$s">Hide Notice</a>'), 'http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/?bm_plugin_notice', home_url('/wp-admin/index.php').'?pcsn_pro_ignore_notice=0');
+        echo "</p></div>";
+	}
+}
+
+add_action('admin_init', 'pcsn_pro_nag_ignore');
+function pcsn_pro_nag_ignore() {
+	global $current_user;
+	
+    $user_id = $current_user->ID;
+    /* If user clicks to ignore the notice, add that to their user meta */
+    if ( isset($_GET['pcsn_pro_ignore_notice']) && '0' == $_GET['pcsn_pro_ignore_notice'] ) {
+         add_user_meta($user_id, 'pcsn_pro_ignore_notice', 'true', true);
+	}
 }

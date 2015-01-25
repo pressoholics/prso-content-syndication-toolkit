@@ -3,7 +3,7 @@ Contributors: ben.moody
 Tags: content syndicator,content marketing,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -25,13 +25,24 @@ Just create an account for each client, publish your post and all the content, c
 
 [youtube http://www.youtube.com/watch?v=IDhMirwfnLc]
 
-= Perfect for Content Marketing, Auto Canonical link generation! =
+= Perfect for Content Marketing, Auto Canonical meta and link generation! =
 
-Plugin automatically adds a canonical link to the 'head' every imported post at the clients end.
-
-It also adds a link back to the original post at the end of the content:
+Plugin automatically adds a canonical link to the 'head' every imported post at the clients end. It also adds a link back to the original post at the end of the content:
 
 e.g. This article was first published on http://benjaminmoody.com.
+
+= Need More? Go Pro and create your own Subscription Based Content Syndication Network! =
+
+* Clients can signup, subscribe, and pay for subscriptions via a client portal on your site!
+* Segment posts into content subscription groups for clients to subscribe to.
+* Create exclusive content for a single client.
+* Clients can manage own subscriptions via client portal.
+* Charge what you want for each subscription group.
+* Client payments process via PayPal.
+
+[Learn More about Content Syndication Toolkit Pro][pro learnmore]
+
+[pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/?bm_plugin_wp_repo=frontpage
 
 = This is NOT an RSS aggregator plugin! =
 
@@ -67,12 +78,6 @@ The client site then does the heavy lifting, importing the post data and downloa
 
 Sometimes web servers go down or take a while to respond. If there is any issue with pushing content to a client, the plugin will send an email to you with the details of the error and it will also send an email to the client admin with instructions on how to manually pull in the content using the client plugin admin options.
 
-= Need More? Go Pro and create your own Subscription Based Content Syndication Network! =
-
-[Learn More about Content Syndication Toolkit Pro][pro learnmore]
-
-[pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/
-
 == Installation ==
 1. Upload to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -87,9 +92,16 @@ Sometimes web servers go down or take a while to respond. If there is any issue 
 
 = Need More Features? Go Pro and create your own Subscription Based Content Syndication Network! =
 
+* Clients can signup, subscribe, and pay for subscriptions via a client portal on your site!
+* Segment posts into content subscription groups for clients to subscribe to.
+* Create exclusive content for a single client.
+* Clients can manage own subscriptions via client portal.
+* Charge what you want for each subscription group.
+* Client payments process via PayPal.
+
 [Learn More about Content Syndication Toolkit Pro][pro learnmore]
 
-[pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/
+[pro learnmore]: http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/?bm_plugin_wp_repo=faq
 
 = I've created accounts for my clients and published a post but the content has not been syndicated =
 Check that all the accounts you have created for your clients are using the Role 'Syndication Sub'. Now make sure that all you clients have downloaded the 'Content Syndication Toolkit Reader' plugin from Wordpress and that they have entered their account details into the reader plugin options.
@@ -136,6 +148,9 @@ Bugfix for canonical pretty permalinks. Improved push speed on post publish.
 = 1.0.4 =
 New option added (Settings > Content Syndication menu in Wordpress). You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.
 
+= 1.0.5 =
+Some speed improvements.
+
 == Upgrade Notice ==
 
 = 1.0.2 =
@@ -146,3 +161,6 @@ Bugfix for canonical pretty permalinks. Improved push speed on post publish.
 
 = 1.0.4 =
 New option added (Settings > Content Syndication menu in Wordpress). You can now choose to syndicate Wordpress Posts instead of custom Sydication Post type.
+
+= 1.0.5 =
+Some speed improvements.

@@ -262,6 +262,12 @@ if ( !class_exists( "PrsoSyndToolkitOptions" ) ) {
 				'title' => __('General Settings', $this->text_domain),
 				'fields' => array(
 					array(
+					    'id'       => 'help-raw',
+					    'type'     => 'raw',
+					    'title'    => null,
+					    'content'  => '<a href="http://benjaminmoody.com/downloads/content-syndication-toolkit-pro/?bm_plugin_option_banner" target="_blank" title="Go Pro!"><img alt="Go PRO and Create your own Content Syndication Network!" src="'. PRSOSYNDTOOLKIT__PLUGIN_URL.'inc/images/pro-banner.png' .'"/></a>'
+					),
+					array(
 						'id'       => 'post-type-select',
 						'type'     => 'select',
 						'title'    => __('Syndication Post Type', $this->text_domain),
