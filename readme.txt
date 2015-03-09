@@ -3,7 +3,7 @@ Contributors: ben.moody
 Tags: content syndicator,content marketing,content syndication,content aggregator,content aggregation,content publisher,syndication network,aggregator network,seo,content publishing
 Requires at least: 3.0
 Tested up to: 4.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -151,6 +151,9 @@ New option added (Settings > Content Syndication menu in Wordpress). You can now
 = 1.0.5 =
 Some speed improvements.
 
+= 1.0.6 =
+Bugfix for Redux Options Framework
+
 == Upgrade Notice ==
 
 = 1.0.2 =
@@ -164,3 +167,6 @@ New option added (Settings > Content Syndication menu in Wordpress). You can now
 
 = 1.0.5 =
 Some speed improvements.
+
+= 1.0.6 =
+Bugfix for Redux Options Framework
