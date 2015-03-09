@@ -17,7 +17,7 @@ class PrsoSyndToolkit {
 		add_action( 'after_setup_theme', array($this, 'plugin_textdomain') );
 		
 		//Init plugin
-		add_action( 'init', array($this, 'init_plugin') );
+		add_action( 'init', array($this, 'init_plugin'), 999 );
 		//add_action( 'admin_init', array($this, 'admin_init_plugin') );
 		//add_action( 'current_screen', array($this, 'current_screen_init_plugin') );
 		
