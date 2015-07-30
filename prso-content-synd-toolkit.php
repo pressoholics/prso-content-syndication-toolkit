@@ -45,6 +45,7 @@ function prso_synd_toolkit_master_init() {
 		'post_options' => array(
 			'post_type' 		=> 'prso_synd_toolkit',
 			'push_on_publish'	=> TRUE,
+			'status'			=> 'publish'
 		)
 	);
 	

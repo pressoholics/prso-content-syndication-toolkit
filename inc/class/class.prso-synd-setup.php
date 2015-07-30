@@ -247,7 +247,7 @@ class PrsoSyndSetup {
 				if( isset($subscriber->data->user_url) && !empty($subscriber->data->user_url) ) {
 					
 					//Form request url with params
-					$request_url = add_query_arg( PRSOSYNDTOOLKITREADER__WEBHOOK_PARAM, 'true', $subscriber->data->user_url );
+					$request_url = add_query_arg( PRSOSYNDTOOLKITREADER__WEBHOOK_PARAM, home_url(), $subscriber->data->user_url );
 					
 					//Make a push request to client server
 					$response = wp_remote_request( $request_url, array('timeout' => 1000) );

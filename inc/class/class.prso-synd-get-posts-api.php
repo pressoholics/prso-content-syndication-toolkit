@@ -183,16 +183,17 @@ class PrsoSyndGetPostsApi {
 	private function get_prso_synd_toolkit_posts( $args ) {
 		
 		//INit vars
-		$start_date	= NULL; //Date of last client post
-		$output		= NULL;
-		$post_type	= $this->class_config['post_options']['post_type'];
+		$start_date		= NULL; //Date of last client post
+		$output			= NULL;
+		$post_type		= $this->class_config['post_options']['post_type'];
+		$post_status	= $this->class_config['post_options']['status'];
 		
 		if( isset($args[0]['last_date']) ) {
 			$start_date =  esc_attr($args[0]['last_date']);
 		}
 		
 		//Setup args to export posts AFTER the start date provided from client api
-		$export_args = array( 'content' => $post_type, 'start_date' => $start_date, 'status' => 'publish' );
+		$export_args = array( 'content' => $post_type, 'start_date' => $start_date, 'status' => $post_status );
 		
 		//Get export xml
 		ob_start();
