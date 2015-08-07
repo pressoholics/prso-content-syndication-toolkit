@@ -68,7 +68,7 @@ class PrsoSyndGetPostsApi {
 		$output		= NULL; //Output to return via api
 		
 		$wp_xmlrpc_server->escape( $args );
-				
+			
 		if ( ! $user = $wp_xmlrpc_server->login( $args[1], $args[2] ) ) {
         	//return $wp_xmlrpc_server->error;
         	header('HTTP/1.0 403 Forbidden');
@@ -83,6 +83,8 @@ class PrsoSyndGetPostsApi {
 		
 		//Cache args for current user in static var
 		self::$current_client = $user;
+		
+		
 		
 		/*
 		 * $user->data->ID
