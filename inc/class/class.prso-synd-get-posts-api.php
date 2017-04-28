@@ -66,10 +66,23 @@ class PrsoSyndGetPostsApi {
 		global $wp_xmlrpc_server;
 		$results 	= NULL; //Results of query
 		$output		= NULL; //Output to return via api
-		
-		$wp_xmlrpc_server->escape( $args );
+        $username	= NULL;
+        $password	= NULL;
+
+        $wp_xmlrpc_server->escape( $args );
+
+        $username 	= $args[0];
+        $password	= $args[1];
+
+        $count = count( $args );
+        if( $count > 2 ) {
+
+            $username 	= sanitize_user( $args[1] );
+            $password	= $args[2];
+
+        }
 			
-		if ( ! $user = $wp_xmlrpc_server->login( $args[1], $args[2] ) ) {
+		if ( ! $user = $wp_xmlrpc_server->login( $username, $password ) ) {
         	//return $wp_xmlrpc_server->error;
         	header('HTTP/1.0 403 Forbidden');
 			die();

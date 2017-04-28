@@ -235,7 +235,6 @@ class PrsoSyndSetup {
 			);
 		}
 		
-		
 		//Loop all subscribers and make a push request to user_url
 		if( !empty($subscribers) ){
 			
