@@ -1,4 +1,9 @@
 <?php
+	
+if( isset($_GET['download']) ) {
+	return;
+}
+	
 /**
  * WordPress Export Administration API
  *
@@ -13,6 +18,7 @@
  *
  * @since 2.5.0
  */
+ 
 define( 'WXR_VERSION', '1.2' );
 
 /**
@@ -132,7 +138,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 	}
 
 	
-	add_filter( 'wxr_export_skip_postmeta', 'wxr_filter_postmeta', 10, 2 );
+	add_filter( 'prso_wxr_export_skip_postmeta', 'prso_wxr_filter_postmeta', 10, 2 );
 
 	echo '<?xml version="1.0" encoding="' . get_bloginfo('charset') . "\" ?>\n";
 
@@ -170,21 +176,21 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 	<pubDate><?php echo date( 'D, d M Y H:i:s +0000' ); ?></pubDate>
 	<language><?php bloginfo_rss( 'language' ); ?></language>
 	<wp:wxr_version><?php echo WXR_VERSION; ?></wp:wxr_version>
-	<wp:base_site_url><?php echo wxr_site_url(); ?></wp:base_site_url>
+	<wp:base_site_url><?php echo prso_wxr_site_url(); ?></wp:base_site_url>
 	<wp:base_blog_url><?php bloginfo_rss( 'url' ); ?></wp:base_blog_url>
 
-<?php wxr_authors_list( $post_ids ); ?>
+<?php prso_wxr_authors_list( $post_ids ); ?>
 
 <?php foreach ( $cats as $c ) : ?>
-	<wp:category><wp:term_id><?php echo $c->term_id ?></wp:term_id><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->slug : ''; ?></wp:category_parent><?php wxr_cat_name( $c ); ?><?php wxr_category_description( $c ); ?></wp:category>
+	<wp:category><wp:term_id><?php echo $c->term_id ?></wp:term_id><wp:category_nicename><?php echo $c->slug; ?></wp:category_nicename><wp:category_parent><?php echo $c->parent ? $cats[$c->parent]->slug : ''; ?></wp:category_parent><?php prso_wxr_cat_name( $c ); ?><?php prso_wxr_category_description( $c ); ?></wp:category>
 <?php endforeach; ?>
 <?php foreach ( $tags as $t ) : ?>
-	<wp:tag><wp:term_id><?php echo $t->term_id ?></wp:term_id><wp:tag_slug><?php echo $t->slug; ?></wp:tag_slug><?php wxr_tag_name( $t ); ?><?php wxr_tag_description( $t ); ?></wp:tag>
+	<wp:tag><wp:term_id><?php echo $t->term_id ?></wp:term_id><wp:tag_slug><?php echo $t->slug; ?></wp:tag_slug><?php prso_wxr_tag_name( $t ); ?><?php prso_wxr_tag_description( $t ); ?></wp:tag>
 <?php endforeach; ?>
 <?php foreach ( $terms as $t ) : ?>
-	<wp:term><wp:term_id><?php echo $t->term_id ?></wp:term_id><wp:term_taxonomy><?php echo $t->taxonomy; ?></wp:term_taxonomy><wp:term_slug><?php echo $t->slug; ?></wp:term_slug><wp:term_parent><?php echo $t->parent ? $terms[$t->parent]->slug : ''; ?></wp:term_parent><?php wxr_term_name( $t ); ?><?php wxr_term_description( $t ); ?></wp:term>
+	<wp:term><wp:term_id><?php echo $t->term_id ?></wp:term_id><wp:term_taxonomy><?php echo $t->taxonomy; ?></wp:term_taxonomy><wp:term_slug><?php echo $t->slug; ?></wp:term_slug><wp:term_parent><?php echo $t->parent ? $terms[$t->parent]->slug : ''; ?></wp:term_parent><?php prso_wxr_term_name( $t ); ?><?php prso_wxr_term_description( $t ); ?></wp:term>
 <?php endforeach; ?>
-<?php if ( 'all' == $args['content'] ) wxr_nav_menu_terms(); ?>
+<?php if ( 'all' == $args['content'] ) prso_wxr_nav_menu_terms(); ?>
 
 	<?php
 	/** This action is documented in wp-includes/feed-rss2.php */
@@ -217,7 +223,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 		<title><?php echo apply_filters( 'the_title_rss', $post->post_title ); ?></title>
 		<link><?php the_permalink_rss() ?></link>
 		<pubDate><?php echo mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true ), false ); ?></pubDate>
-		<dc:creator><?php echo wxr_cdata( get_the_author_meta( 'login' ) ); ?></dc:creator>
+		<dc:creator><?php echo prso_wxr_cdata( get_the_author_meta( 'login' ) ); ?></dc:creator>
 		<guid isPermaLink="false"><?php the_guid(); ?></guid>
 		<description></description>
 		<content:encoded><?php
@@ -228,7 +234,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 			 *
 			 * @param string $post_content Content of the current post.
 			 */
-			echo wxr_cdata( apply_filters( 'the_content_export', $post->post_content ) );
+			echo prso_wxr_cdata( apply_filters( 'the_content_export', $post->post_content ) );
 		?></content:encoded>
 		<excerpt:encoded><?php
 			/**
@@ -238,7 +244,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 			 *
 			 * @param string $post_excerpt Excerpt for the current post.
 			 */
-			echo wxr_cdata( apply_filters( 'the_excerpt_export', $post->post_excerpt ) );
+			echo prso_wxr_cdata( apply_filters( 'the_excerpt_export', $post->post_excerpt ) );
 		?></excerpt:encoded>
 		<wp:post_id><?php echo $post->ID; ?></wp:post_id>
 		<wp:post_date><?php echo $post->post_date; ?></wp:post_date>
@@ -255,7 +261,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 <?php	if ( $post->post_type == 'attachment' ) : ?>
 		<wp:attachment_url><?php echo wp_get_attachment_url( $post->ID ); ?></wp:attachment_url>
 <?php 	endif; ?>
-<?php 	wxr_post_taxonomy(); ?>
+<?php 	prso_wxr_post_taxonomy(); ?>
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
 		
 		foreach ( $postmeta as $meta ) :
@@ -271,12 +277,12 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
 			 * @param string $meta_key Current meta key.
 			 * @param object $meta     Current meta object.
 			 */
-			if ( apply_filters( 'wxr_export_skip_postmeta', false, $meta->meta_key, $meta ) )
+			if ( apply_filters( 'prso_wxr_export_skip_postmeta', false, $meta->meta_key, $meta ) )
 				continue;
 		?>
 		<wp:postmeta>
 			<wp:meta_key><?php echo $meta->meta_key; ?></wp:meta_key>
-			<wp:meta_value><?php echo wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
+			<wp:meta_value><?php echo prso_wxr_cdata( $meta->meta_value ); ?></wp:meta_value>
 		</wp:postmeta>
 <?php	endforeach; ?>
 		
@@ -299,7 +305,7 @@ function prso_synd_toolkit_export_wp( $args = array() ) {
  * @param string $str String to wrap in XML CDATA tag.
  * @return string
  */
-function wxr_cdata( $str ) {
+function prso_wxr_cdata( $str ) {
 	if ( seems_utf8( $str ) == false )
 		$str = utf8_encode( $str );
 
@@ -316,7 +322,7 @@ function wxr_cdata( $str ) {
  *
  * @return string Site URL.
  */
-function wxr_site_url() {
+function prso_wxr_site_url() {
 	// Multisite: the base URL.
 	if ( is_multisite() )
 		return network_home_url();
@@ -332,11 +338,11 @@ function wxr_site_url() {
  *
  * @param object $category Category Object
  */
-function wxr_cat_name( $category ) {
+function prso_wxr_cat_name( $category ) {
 	if ( empty( $category->name ) )
 		return;
 
-	echo '<wp:cat_name>' . wxr_cdata( $category->name ) . '</wp:cat_name>';
+	echo '<wp:cat_name>' . prso_wxr_cdata( $category->name ) . '</wp:cat_name>';
 }
 
 /**
@@ -346,11 +352,11 @@ function wxr_cat_name( $category ) {
  *
  * @param object $category Category Object
  */
-function wxr_category_description( $category ) {
+function prso_wxr_category_description( $category ) {
 	if ( empty( $category->description ) )
 		return;
 
-	echo '<wp:category_description>' . wxr_cdata( $category->description ) . '</wp:category_description>';
+	echo '<wp:category_description>' . prso_wxr_cdata( $category->description ) . '</wp:category_description>';
 }
 
 /**
@@ -360,11 +366,11 @@ function wxr_category_description( $category ) {
  *
  * @param object $tag Tag Object
  */
-function wxr_tag_name( $tag ) {
+function prso_wxr_tag_name( $tag ) {
 	if ( empty( $tag->name ) )
 		return;
 
-	echo '<wp:tag_name>' . wxr_cdata( $tag->name ) . '</wp:tag_name>';
+	echo '<wp:tag_name>' . prso_wxr_cdata( $tag->name ) . '</wp:tag_name>';
 }
 
 /**
@@ -374,11 +380,11 @@ function wxr_tag_name( $tag ) {
  *
  * @param object $tag Tag Object
  */
-function wxr_tag_description( $tag ) {
+function prso_wxr_tag_description( $tag ) {
 	if ( empty( $tag->description ) )
 		return;
 
-	echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . '</wp:tag_description>';
+	echo '<wp:tag_description>' . prso_wxr_cdata( $tag->description ) . '</wp:tag_description>';
 }
 
 /**
@@ -388,11 +394,11 @@ function wxr_tag_description( $tag ) {
  *
  * @param object $term Term Object
  */
-function wxr_term_name( $term ) {
+function prso_wxr_term_name( $term ) {
 	if ( empty( $term->name ) )
 		return;
 
-	echo '<wp:term_name>' . wxr_cdata( $term->name ) . '</wp:term_name>';
+	echo '<wp:term_name>' . prso_wxr_cdata( $term->name ) . '</wp:term_name>';
 }
 
 /**
@@ -402,11 +408,11 @@ function wxr_term_name( $term ) {
  *
  * @param object $term Term Object
  */
-function wxr_term_description( $term ) {
+function prso_wxr_term_description( $term ) {
 	if ( empty( $term->description ) )
 		return;
 
-	echo '<wp:term_description>' . wxr_cdata( $term->description ) . '</wp:term_description>';
+	echo '<wp:term_description>' . prso_wxr_cdata( $term->description ) . '</wp:term_description>';
 }
 
 /**
@@ -416,7 +422,7 @@ function wxr_term_description( $term ) {
  *
  * @param array $post_ids Array of post IDs to filter the query by. Optional.
  */
-function wxr_authors_list( array $post_ids = null ) {
+function prso_wxr_authors_list( array $post_ids = null ) {
 	global $wpdb;
 
 	if ( !empty( $post_ids ) ) {
@@ -438,9 +444,9 @@ function wxr_authors_list( array $post_ids = null ) {
 		echo '<wp:author_id>' . $author->ID . '</wp:author_id>';
 		echo '<wp:author_login>' . $author->user_login . '</wp:author_login>';
 		echo '<wp:author_email>' . $author->user_email . '</wp:author_email>';
-		echo '<wp:author_display_name>' . wxr_cdata( $author->display_name ) . '</wp:author_display_name>';
-		echo '<wp:author_first_name>' . wxr_cdata( $author->user_firstname ) . '</wp:author_first_name>';
-		echo '<wp:author_last_name>' . wxr_cdata( $author->user_lastname ) . '</wp:author_last_name>';
+		echo '<wp:author_display_name>' . prso_wxr_cdata( $author->display_name ) . '</wp:author_display_name>';
+		echo '<wp:author_first_name>' . prso_wxr_cdata( $author->user_firstname ) . '</wp:author_first_name>';
+		echo '<wp:author_last_name>' . prso_wxr_cdata( $author->user_lastname ) . '</wp:author_last_name>';
 		echo "</wp:author>\n";
 	}
 }
@@ -450,14 +456,14 @@ function wxr_authors_list( array $post_ids = null ) {
  *
  * @since 3.1.0
  */
-function wxr_nav_menu_terms() {
+function prso_wxr_nav_menu_terms() {
 	$nav_menus = wp_get_nav_menus();
 	if ( empty( $nav_menus ) || ! is_array( $nav_menus ) )
 		return;
 
 	foreach ( $nav_menus as $menu ) {
 		echo "\t<wp:term><wp:term_id>{$menu->term_id}</wp:term_id><wp:term_taxonomy>nav_menu</wp:term_taxonomy><wp:term_slug>{$menu->slug}</wp:term_slug>";
-		wxr_term_name( $menu );
+		prso_wxr_term_name( $menu );
 		echo "</wp:term>\n";
 	}
 }
@@ -467,7 +473,7 @@ function wxr_nav_menu_terms() {
  *
  * @since 2.3.0
  */
-function wxr_post_taxonomy() {
+function prso_wxr_post_taxonomy() {
 	$post = get_post();
 
 	$taxonomies = get_object_taxonomies( $post->post_type );
@@ -481,11 +487,11 @@ function wxr_post_taxonomy() {
 	$terms = apply_filters( 'pcst_export_object_terms', $terms );
 	
 	foreach ( (array) $terms as $term ) {
-		echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . wxr_cdata( $term->name ) . "</category>\n";
+		echo "\t\t<category domain=\"{$term->taxonomy}\" nicename=\"{$term->slug}\">" . prso_wxr_cdata( $term->name ) . "</category>\n";
 	}
 }
 
-function wxr_filter_postmeta( $return_me, $meta_key ) {
+function prso_wxr_filter_postmeta( $return_me, $meta_key ) {
 	if ( '_edit_lock' == $meta_key )
 		$return_me = true;
 	return $return_me;
