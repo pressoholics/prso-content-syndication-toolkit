@@ -300,61 +300,69 @@ class PrsoSyndToolkit {
 		
 		//wp_localize_script( '', $object, $js_vars );
 	}
-	
+
 	public static function plugin_error_log( $var ) {
-		
-		ini_set( 'log_errors', 1 );
-		ini_set( 'error_log', PRSOSYNDTOOLKIT__PLUGIN_DIR . '/debug.log' );
-		
-		if( !is_string($var) ) {
-			error_log( print_r($var, true) );
-		} else {
-			error_log( $var );
+
+		if( defined('WP_DEBUG') && (TRUE === WP_DEBUG) ) {
+
+			ini_set( 'log_errors', 1 );
+			ini_set( 'error_log', PRSOSYNDTOOLKIT__PLUGIN_DIR . '/debug.log' );
+
+			if ( ! is_string( $var ) ) {
+				error_log( print_r( $var, true ) );
+			} else {
+				error_log( $var );
+			}
+
 		}
-		
+
 	}
-	
+
 	/**
-	* send_admin_email
-	* 
-	* Sends an error warning email to the wordpress admin
-	* 
-	* @access 	private
-	* @author	Ben Moody
-	*/
+	 * send_admin_email
+	 *
+	 * Sends an error warning email to the wordpress admin
+	 *
+	 * @access 	private
+	 * @author	Ben Moody
+	 */
 	public static function send_admin_email( $error_msg, $error_type = 'push_error', $admin_email = NULL ) {
-		
+
 		//Init vars
 		$inc_templates = PRSOSYNDTOOLKIT__PLUGIN_DIR . "inc/templates/email/{$error_type}.php";
-		
+
 		$subject = NULL;
 		$headers = array();
 		$message = NULL;
-		
-		if( file_exists($inc_templates) ) {
-		
-			//send admin an email to let them know
-			if( empty($admin_email) ) {
-				$admin_email = get_option( 'admin_email' );
-			}
-			
-			//Set email content
-			$subject = _x( 'WP Content Syndication Toolkit', 'text', PRSOSYNDTOOLKIT__DOMAIN );
-			
-			ob_start();
+
+		if( defined('WP_DEBUG') && (TRUE === WP_DEBUG) ) {
+
+			if ( file_exists( $inc_templates ) ) {
+
+				//send admin an email to let them know
+				if ( empty( $admin_email ) ) {
+					$admin_email = get_option( 'admin_email' );
+				}
+
+				//Set email content
+				$subject = _x( 'WP Content Syndication Toolkit', 'text', PRSOSYNDTOOLKIT__DOMAIN );
+
+				ob_start();
 				include_once( $inc_templates );
-			$message = ob_get_contents();
-			ob_end_clean();
-			
-			//Send Email to admin
-			wp_mail( $admin_email, $subject, $message );
-			
-			//Error log
-			PrsoSyndToolkit::plugin_error_log( $message );
-			
-			return;
+				$message = ob_get_contents();
+				ob_end_clean();
+
+				//Send Email to admin
+				wp_mail( $admin_email, $subject, $message );
+
+				//Error log
+				PrsoSyndToolkit::plugin_error_log( $message );
+
+				return;
+			}
+
 		}
-		
+
 	}
 	
 }
